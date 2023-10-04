@@ -14,7 +14,7 @@ def query(payload, model_id, api_token):
 
 
 @app.route("/chat")
-def model():
+def call_huggingface_chat_model():
     model_id = req.args.get("model_id")
     logging.debug(f"The model ID for the Huggingface model is {model_id}")
     huggingface_token = req.args.get("huggingface_token")
