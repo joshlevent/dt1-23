@@ -56,7 +56,7 @@ def load_huggingface_chat_model():
 
 @app.route("/ping")
 def ping():
-    return {"ack": "ping back"}
+    return {"ack": "pong"}
 
 
 if __name__ == "__main__":
