@@ -48,7 +48,6 @@ def load_huggingface_chat_model():
         huggingface_token,
     )
     logging.debug(f"Model output: {data}")
-    print(list(data[0].keys())[0])
     if "generated_text" in data[0]:
         return {"ack": "model loaded and ready"}
     else:
