@@ -30,7 +30,29 @@ def call_huggingface_chat_model():
         huggingface_token,
     )
     logging.debug(f"Model output: {data}")
-    return data[0]
+    return {"ack": data[0]["generated_text"]}
+
+
+@app.route("/load_model")
+def load_huggingface_chat_model():
+    model_id = req.args.get("model_id")
+    logging.debug(f"The model ID for the Huggingface model is {model_id}")
+    huggingface_token = req.args.get("huggingface_token")
+    logging.debug(f"Huggingface API Token: {huggingface_token}")
+    data = query(
+        {
+            "inputs": "hello",
+            "parameters": {"return_full_text": True},
+        },
+        model_id,
+        huggingface_token,
+    )
+    logging.debug(f"Model output: {data}")
+    print(list(data[0].keys())[0])
+    if "generated_text" in data[0]:
+        return {"ack": "model loaded and ready"}
+    else:
+        return {"ack": data[0][list(data[0].keys())[0]]}
 
 
 @app.route("/ping")
