@@ -1,4 +1,4 @@
-from flask import Flask, request as req
+from flask import Flask, request as req, jsonify
 import requests
 import logging
 import os
@@ -30,7 +30,9 @@ def call_huggingface_chat_model():
         huggingface_token,
     )
     logging.debug(f"Model output: {data}")
-    return {"ack": data[0]["generated_text"]}
+    output = jsonify({"ack": data[0]["generated_text"]})
+    output.headers.add("Access-Control-Allow-Origin", "*")
+    return output
 
 
 @app.route("/load_model")
@@ -48,15 +50,20 @@ def load_huggingface_chat_model():
         huggingface_token,
     )
     logging.debug(f"Model output: {data}")
+    output = {}
     if "generated_text" in data[0]:
-        return {"ack": "model loaded and ready"}
+        output = jsonify({"ack": "model loaded and ready"})
     else:
-        return {"ack": data[0][list(data[0].keys())[0]]}
+        output = jsonify({"ack": data[0][list(data[0].keys())[0]]})
+    output.headers.add("Access-Control-Allow-Origin", "*")
+    return output
 
 
 @app.route("/ping")
 def ping():
-    return {"ack": "pong"}
+    output = jsonify({"ack": "pong"})
+    output.headers.add("Access-Control-Allow-Origin", "*")
+    return output
 
 
 if __name__ == "__main__":
