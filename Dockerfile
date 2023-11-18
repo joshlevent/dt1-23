@@ -11,6 +11,6 @@ RUN pip3 install -U pip && \
 
 ENTRYPOINT [ "python" ]
 
-EXPOSE 5000
+EXPOSE 80
 
 CMD ["main.py" ]
